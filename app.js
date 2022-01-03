@@ -13,25 +13,14 @@ var rollbar = new Rollbar({
   captureUnhandledRejections: true,
 })
 
-// record a generic message and send it to Rollbar
-rollbar.log('Hello world!')
-
-try {
-  nonExistentFunction();
-} catch (error) {
-  console.error(error);
-  // expected output: ReferenceError: nonExistentFunction is not defined
-  // Note - error messages will vary depending on browser
-}
-
-
-
 app.use(cors());
 app.use(express.json());
 
 
 app.use('/', express.static(path.join(__dirname, 'public')))
-
+app.get('/error', () => {
+  nonExistentFunction();
+})
 
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
